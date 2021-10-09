@@ -43210,8 +43210,108 @@ console.log(totalPrimariaPorGenero(datosColegio, 'secundaria', 'male'))
 
 console.log(totalPrimariaPorGenero(datosColegio, 'secundaria', 'female'))
 
-/*La media de las notas en el colegio.
-La media de las notas en el bachillerato.
+/*Obtener notas según cualquier parametro*/
+
+function notas(datosColegio1, nivel, grado, curso) {
+    let notas = [];
+    //notas globales del colegio
+    if (nivel == undefined & grado == undefined & curso == undefined) {
+        for (let nivel in datosColegio1) {
+            let  datosNivel = datosColegio1[nivel][0];
+            for (let grado in datosNivel) {
+                let datosGrado = datosNivel[grado];
+                for (let curso in datosGrado) {
+                    let datosCurso = datosGrado[curso];
+                    for (let estudiantes in datosCurso.estudiantes) {
+                        let datosEstudiante = datosCurso.estudiantes[estudiantes];
+                        for (let materias in datosEstudiante.asignaturas) {
+                            let materia = datosEstudiante.asignaturas[materias];
+                            for (let periodos in materia) {
+                                notas.push(materia[periodos].primerCorte);
+                                notas.push(materia[periodos].segundoCorte);
+                                notas.push(materia[periodos].tercerCorte);
+                                notas.push(materia[periodos].cuartoCorte);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //notas por nivel: primaria o secundaria
+    else if (grado == undefined & curso == undefined) {
+        let  datosNivel = datosColegio1[nivel][0];
+        for (let grado in datosNivel) {
+            let datosGrado = datosNivel[grado];
+            for (let curso in datosGrado) {
+                let datosCurso = datosGrado[curso];
+                for (let estudiantes in datosCurso.estudiantes) {
+                    let datosEstudiante = datosCurso.estudiantes[estudiantes];
+                    for (let materias in datosEstudiante.asignaturas) {
+                        let materia = datosEstudiante.asignaturas[materias];
+                        for (let periodos in materia) {
+                            notas.push(materia[periodos].primerCorte);
+                            notas.push(materia[periodos].segundoCorte);
+                            notas.push(materia[periodos].tercerCorte);
+                            notas.push(materia[periodos].cuartoCorte);
+                        }
+                    }
+                }
+            }
+        }
+    }       
+    //notas por grado: primero - once 
+    else if (curso == undefined) {
+        let  datosNivel = datosColegio1[nivel][0];
+        let datosGrado = datosNivel[grado];
+        for (let curso in datosGrado) {
+            let datosCurso = datosGrado[curso];
+            for (let estudiantes in datosCurso.estudiantes) {
+                let datosEstudiante = datosCurso.estudiantes[estudiantes];
+                for (let materias in datosEstudiante.asignaturas) {
+                    let materia = datosEstudiante.asignaturas[materias];
+                    for (let periodos in materia) {
+                        notas.push(materia[periodos].primerCorte);
+                        notas.push(materia[periodos].segundoCorte);
+                        notas.push(materia[periodos].tercerCorte);
+                        notas.push(materia[periodos].cuartoCorte);
+                    }
+                }
+            }
+        }
+    }
+    //notas por curso: gradoA (0) o grado B (1)
+    else {
+        let  datosNivel = datosColegio1[nivel][0];
+        let datosGrado = datosNivel[grado];
+        let datosCurso = datosGrado[curso];
+        for (let estudiante in datosCurso.estudiantes) {
+            let datosEstudiante = datosCurso.estudiantes[estudiante];
+            for (let materias in datosEstudiante.asignaturas) {
+                let materia = datosEstudiante.asignaturas[materias];
+                for (let periodos in materia) {
+                    notas.push(materia[periodos].primerCorte);
+                    notas.push(materia[periodos].segundoCorte);
+                    notas.push(materia[periodos].tercerCorte);
+                    notas.push(materia[periodos].cuartoCorte);
+                }
+            }
+        }
+    }
+
+    notas.sort();
+    return notas;
+
+}
+
+console.log(notas(datosColegio1, 'primaria', 'segundo', 0))
+
+
+/*Función media por parametro*/
+
+
+
+/*La media de las notas en el bachillerato.
 La media de las notas en el primaria.
 La media de las notas de un grado seleccionado por parametro.
 La media de las notas de un curso seleccionado por parametro.
