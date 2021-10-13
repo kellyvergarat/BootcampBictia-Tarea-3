@@ -43061,7 +43061,7 @@ function totalEstudiantes() {
     return totalEstudiantes;
 }
 
-console.log(totalEstudiantes())
+console.log(`Total de estudiantes en el colegio: ${totalEstudiantes()}`)
 
 /*La cantidad total de estudiantes que hay en primaria.*/
 
@@ -43076,11 +43076,11 @@ function totalEstudiantesPorNivel(datosColegio, nivel) {
     return totalEstudiantesPorNivel;
 }
 
-console.log(totalEstudiantesPorNivel(datosColegio, 'primaria'))
+console.log(`Cantidad de estudiantes en primaria: ${totalEstudiantesPorNivel(datosColegio, 'primaria')}`)
 
 /*La cantidad total de estudiantes que hay en bachillerato.*/
 
-console.log(totalEstudiantesPorNivel(datosColegio, 'secundaria'))
+console.log(`Cantidad de estudiantes en secundaria: ${totalEstudiantesPorNivel(datosColegio, 'secundaria')}`)
 
 /*La cantidad de niños que hay en el colegio.*/
 
@@ -43123,11 +43123,11 @@ function totalEstudiantesPorGenero(datosColegio, genero) {
     }
 }
 
-console.log(totalEstudiantesPorGenero(datosColegio, 'male'))
+console.log(`Cantidad de niños que hay en el colegio: ${totalEstudiantesPorGenero(datosColegio, 'male')}`)
 
 /*La cantidad de niñas que hay en el colegio.*/
 
-console.log(totalEstudiantesPorGenero(datosColegio, 'female'))
+console.log(`Cantidad de niñas que hay en el colegio: ${totalEstudiantesPorGenero(datosColegio, 'female')}`)
 
 /*La cantidad de niños que hay en primaria.*/
 
@@ -43196,19 +43196,19 @@ function totalPrimariaPorGenero(datosColegio, nivel, genero) {
      }
 }
 
-console.log(totalPrimariaPorGenero(datosColegio, 'primaria', 'male'))
+console.log(`Cantidad de niños que hay en primaria: ${totalPrimariaPorGenero(datosColegio, 'primaria', 'male')}`)
 
 /*La cantidad de niñas que hay en primaria.*/
 
-console.log(totalPrimariaPorGenero(datosColegio, 'primaria', 'female'))
+console.log(`Cantidad de niñas que hay en primaria: ${totalPrimariaPorGenero(datosColegio, 'primaria', 'female')}`)
 
 /*La cantidad de niños que hay en bachillerato.*/
 
-console.log(totalPrimariaPorGenero(datosColegio, 'secundaria', 'male'))
+console.log(`Cantidad de niños que hay en bachillerato: ${totalPrimariaPorGenero(datosColegio, 'secundaria', 'male')}`)
 
 /*La cantidad de niñas que hay en bachillerato.*/
 
-console.log(totalPrimariaPorGenero(datosColegio, 'secundaria', 'female'))
+console.log(`Cantidad de niñas que hay en bachillerato: ${totalPrimariaPorGenero(datosColegio, 'secundaria', 'female')}`)
 
 /*Obtener notas según cualquier parametro*/
 
@@ -43304,12 +43304,100 @@ function notas(datosColegio1, nivel, grado, curso) {
 
 }
 
-console.log(notas(datosColegio1, 'primaria', 'segundo', 0))
-
+//console.log(notas(datosColegio1, 'primaria', 'segundo', 0))
 
 /*Función media por parametro*/
 
+function mediaNotas(datosColegio1, nivel, grado, curso) {
+    let notas1
+    let notasActuales = 0
+    let media = 0
+    //notas globales del colegio
+    if (nivel == undefined & grado == undefined & curso == undefined) {
+        notas1 = notas(datosColegio1)
+        for (let i = 0; i < notas.length; i++) {
+            notasActuales += notas[i];
+        }
+    }
+    //notas por nivel: primaria o secundaria
+    else if (grado == undefined & curso == undefined) {
+        let  datosNivel = datosColegio1[nivel][0];
+        for (let grado in datosNivel) {
+            let datosGrado = datosNivel[grado];
+            for (let curso in datosGrado) {
+                let datosCurso = datosGrado[curso];
+                for (let estudiantes in datosCurso.estudiantes) {
+                    let datosEstudiante = datosCurso.estudiantes[estudiantes];
+                    for (let materias in datosEstudiante.asignaturas) {
+                        let materia = datosEstudiante.asignaturas[materias];
+                        for (let periodos in materia) {
+                            notas.push(materia[periodos].primerCorte);
+                            notas.push(materia[periodos].segundoCorte);
+                            notas.push(materia[periodos].tercerCorte);
+                            notas.push(materia[periodos].cuartoCorte);
+                        }
+                    }
+                }
+            }
+        }
+    }       
+    //notas por grado: primero - once 
+    else if (curso == undefined) {
+        let  datosNivel = datosColegio1[nivel][0];
+        let datosGrado = datosNivel[grado];
+        for (let curso in datosGrado) {
+            let datosCurso = datosGrado[curso];
+            for (let estudiantes in datosCurso.estudiantes) {
+                let datosEstudiante = datosCurso.estudiantes[estudiantes];
+                for (let materias in datosEstudiante.asignaturas) {
+                    let materia = datosEstudiante.asignaturas[materias];
+                    for (let periodos in materia) {
+                        notas.push(materia[periodos].primerCorte);
+                        notas.push(materia[periodos].segundoCorte);
+                        notas.push(materia[periodos].tercerCorte);
+                        notas.push(materia[periodos].cuartoCorte);
+                    }
+                }
+            }
+        }
+    }
+    //notas por curso: gradoA (0) o grado B (1)
+    else {
+        let  datosNivel = datosColegio1[nivel][0];
+        let datosGrado = datosNivel[grado];
+        let datosCurso = datosGrado[curso];
+        for (let estudiante in datosCurso.estudiantes) {
+            let datosEstudiante = datosCurso.estudiantes[estudiante];
+            for (let materias in datosEstudiante.asignaturas) {
+                let materia = datosEstudiante.asignaturas[materias];
+                for (let periodos in materia) {
+                    notas.push(materia[periodos].primerCorte);
+                    notas.push(materia[periodos].segundoCorte);
+                    notas.push(materia[periodos].tercerCorte);
+                    notas.push(materia[periodos].cuartoCorte);
+                }
+            }
+        }
+    }
 
+    media = notasActuales / notas.length ;
+    return media;
+}
+
+console.log(mediaNotas(datosColegio1))
+
+//imprime en consola el nombre y el genero del estudiane en la posicion 5 de cada curso de cada grado. la estduaite es y su genero es 
+
+for (let nivel in datosColegio1) {
+    let datosNivel = datosColegio1[nivel];
+    for (let cursos in datosNivel) {
+        console.log(datosNivel[cursos])
+        console.log(`El/la estudiante es ${datosNivel[cursos].estudiantes[5].nombre} y su genero es ${datosCursos.estudiantes[5].genero}`);
+    }
+}
+
+
+//console.log(`El/la estudiante es ${} y su genero es ${}`)
 
 /*La media de las notas en el bachillerato.
 La media de las notas en el primaria.
